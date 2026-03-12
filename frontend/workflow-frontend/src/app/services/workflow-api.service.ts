@@ -8,12 +8,13 @@ import { CreateWorkflowItemRequest } from '../models/create-workflow-item-reques
 import { UpdateWorkflowStatusRequest } from '../models/update-workflow-status-request.model';
 import { WorkflowHistory } from '../models/workflow-history.model';
 import { WorkflowDashboard } from '../models/workflow-dashboard.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkflowApiService {
-  private readonly baseUrl = 'http://localhost:8080/api/workflow-items';
+  private readonly baseUrl = `${environment.apiBaseUrl}/workflow-items`;
 
   constructor(private http: HttpClient) {}
 
@@ -41,7 +42,7 @@ export class WorkflowApiService {
   }
 
   getAllUsers(): Observable<User[]> {
-  return this.http.get<User[]>('http://localhost:8080/api/users');
+  return this.http.get<User[]>(`${environment.apiBaseUrl}/users`);
   }
 
   updateWorkflowItem(id: number, request: UpdateWorkflowItemRequest): Observable<WorkflowItem> {
@@ -49,10 +50,10 @@ export class WorkflowApiService {
   }
 
   getDashboardSummary(): Observable<WorkflowDashboard> {
-  return this.http.get<WorkflowDashboard>('http://localhost:8080/api/dashboard/summary');
+  return this.http.get<WorkflowDashboard>(`${environment.apiBaseUrl}/dashboard/summary`);
   }
 
   getRecentWorkflowItems(): Observable<WorkflowItem[]> {
-  return this.http.get<WorkflowItem[]>('http://localhost:8080/api/dashboard/recent-items');
+  return this.http.get<WorkflowItem[]>(`${environment.apiBaseUrl}/dashboard/recent-items`);
   }
 }
