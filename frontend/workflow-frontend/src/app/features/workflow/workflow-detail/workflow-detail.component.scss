@@ -1,0 +1,128 @@
+.detail-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.detail-title {
+    margin-bottom: 10px;
+}
+
+.detail-description {
+    margin: 0;
+    color: #4b5563;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+    gap: 14px 20px;
+    margin-top: 20px;
+}
+
+.meta-grid div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.history-section {
+    margin-top: 20px;
+}
+
+.history-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 14px;
+    background: #fafafa;
+}
+
+.history-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.arrow {
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+textarea,
+select,
+input {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+}
+
+textarea:focus,
+select:focus,
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.back-link {
+    margin-top: 16px;
+}
+
+.empty-note {
+    color: #6b7280;
+}
+
+.edit-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+}
+
+.secondary-btn {
+    background: #e5e7eb;
+    color: #1f2937;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-header {
+        flex-direction: column;
+    }
+
+    .meta-grid {
+        grid-template-columns: 1fr;
+    }
+}

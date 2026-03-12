@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Workflow Items</h1>
+      <p class="subtitle">Track, review, and manage workflow items across statuses.</p>
+    </div>
+
+    <a
+      *ngIf="true"
+      routerLink="/workflow-items/create"
+      class="primary-btn create-link"
+    >
+      Create Item
+    </a>
+  </div>
+
+  <div class="toolbar section-card">
+    <div class="toolbar-group">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter" [value]="selectedStatus" (change)="onStatusChange($event)">
+        <option *ngFor="let status of statuses" [value]="status">
+          {{ status || 'ALL' }}
+        </option>
+      </select>
+    </div>
+
+    <div class="toolbar-group">
+      <label for="searchTerm">Search</label>
+      <input
+        id="searchTerm"
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyClientFilters()"
+        placeholder="Search title, description, or status"
+      />
+    </div>
+
+    <div class="toolbar-group">
+      <label for="sortBy">Sort By</label>
+      <select id="sortBy" [(ngModel)]="sortBy" (ngModelChange)="applyClientFilters()">
+        <option value="updatedDesc">Updated: Newest</option>
+        <option value="updatedAsc">Updated: Oldest</option>
+        <option value="createdDesc">Created: Newest</option>
+        <option value="titleAsc">Title: A-Z</option>
+        <option value="titleDesc">Title: Z-A</option>
+      </select>
+    </div>
+  </div>
+
+  <p *ngIf="loading">Loading workflow items...</p>
+  <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+
+  <div *ngIf="!loading && filteredItems.length === 0" class="empty-state section-card">
+    No workflow items found for the selected filters.
+  </div>
+
+  <div class="card-list" *ngIf="!loading && filteredItems.length > 0">
+    <div class="workflow-card section-card" *ngFor="let item of filteredItems">
+      <div class="workflow-card__top">
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p class="desc">{{ item.description || 'No description provided.' }}</p>
+        </div>
+
+        <span [class]="getStatusClass(item.status)">
+          {{ item.status }}
+        </span>
+      </div>
+
+      <div class="meta-grid">
+        <div>
+          <span class="meta-label">Created By</span>
+          <span>{{ item.createdByName }}</span>
+        </div>
+        <div>
+          <span class="meta-label">Assigned To</span>
+          <span>{{ item.assignedToName || 'Unassigned' }}</span>
+        </div>
+        <div>
+          <span class="meta-label">Created</span>
+          <span>{{ item.createdAt | date:'medium' }}</span>
+        </div>
+        <div>
+          <span class="meta-label">Updated</span>
+          <span>{{ item.updatedAt | date:'medium' }}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a [routerLink]="['/workflow-items', item.id]" class="secondary-link">View Details</a>
+      </div>
+    </div>
+  </div>
+</div>

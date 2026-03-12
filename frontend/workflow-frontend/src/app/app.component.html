@@ -1,0 +1,32 @@
+<nav class="top-nav">
+  <div class="top-nav__inner">
+    <div class="brand">Workflow Management</div>
+
+    <div class="nav-links" *ngIf="authService.isLoggedIn(); else loggedOutLinks">
+      <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+      <a routerLink="/workflow-items" routerLinkActive="active-link">Workflow Items</a>
+
+      <a
+        *ngIf="authService.hasRole('EMPLOYEE') || authService.hasRole('ADMIN')"
+        routerLink="/workflow-items/create"
+        routerLinkActive="active-link"
+      >
+        Create Item
+      </a>
+
+      <span class="user-chip">
+        {{ authService.getCurrentUser()?.fullName }} ({{ authService.getCurrentUser()?.role }})
+      </span>
+
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+
+    <ng-template #loggedOutLinks>
+      <div class="nav-links">
+        <a routerLink="/login" routerLinkActive="active-link">Login</a>
+      </div>
+    </ng-template>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

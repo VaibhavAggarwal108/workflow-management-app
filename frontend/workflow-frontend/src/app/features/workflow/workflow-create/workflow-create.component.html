@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="form-wrapper section-card">
+    <h1 class="page-title">Create Workflow Item</h1>
+    <p class="subtitle">Add a new workflow item and assign it to a user.</p>
+
+    <form (ngSubmit)="onSubmit()" #workflowForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          [(ngModel)]="formData.title"
+          required
+          placeholder="Enter workflow title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="formData.description"
+          rows="5"
+          placeholder="Describe the workflow item"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedToUserId">Assign To</label>
+        <select
+          id="assignedToUserId"
+          name="assignedToUserId"
+          [(ngModel)]="formData.assignedToUserId"
+        >
+          <option [ngValue]="null">Unassigned</option>
+          <option *ngFor="let user of assignableUsers" [ngValue]="user.id">
+            {{ user.fullName }} ({{ user.role }}) - {{ user.email }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="loadingUsers" class="loading-note">
+        Loading users...
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-btn" type="submit" [disabled]="loading || !workflowForm.form.valid">
+          {{ loading ? 'Creating...' : 'Create Workflow Item' }}
+        </button>
+
+        <a routerLink="/workflow-items" class="secondary-link">Back to List</a>
+      </div>
+
+      <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" class="success-text">{{ successMessage }}</p>
+    </form>
+  </div>
+</div>

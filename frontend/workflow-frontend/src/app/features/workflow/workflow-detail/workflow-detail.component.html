@@ -1,0 +1,135 @@
+<div class="container" *ngIf="workflowItem; else loadingOrError">
+  <div class="detail-layout">
+    <div class="main-column">
+      <div class="section-card">
+        <div class="detail-header">
+          <div>
+            <h1 class="page-title detail-title" *ngIf="!editMode">{{ workflowItem.title }}</h1>
+
+            <div *ngIf="editMode" class="form-group">
+              <label for="editTitle">Title</label>
+              <input id="editTitle" type="text" [(ngModel)]="editForm.title" />
+            </div>
+
+            <p class="detail-description" *ngIf="!editMode">
+              {{ workflowItem.description || 'No description provided.' }}
+            </p>
+
+            <div *ngIf="editMode" class="form-group">
+              <label for="editDescription">Description</label>
+              <textarea id="editDescription" rows="4" [(ngModel)]="editForm.description"></textarea>
+            </div>
+          </div>
+
+          <span [class]="getStatusClass(workflowItem.status)">
+            {{ workflowItem.status }}
+          </span>
+        </div>
+
+        <div class="meta-grid">
+          <div>
+            <span class="meta-label">Created By</span>
+            <span>{{ workflowItem.createdByName }}</span>
+          </div>
+
+          <div *ngIf="!editMode">
+            <span class="meta-label">Assigned To</span>
+            <span>{{ workflowItem.assignedToName || 'Unassigned' }}</span>
+          </div>
+
+          <div *ngIf="editMode" class="form-group">
+            <label for="editAssignedTo">Assigned To</label>
+            <select id="editAssignedTo" [(ngModel)]="editForm.assignedToUserId">
+              <option [ngValue]="null">Unassigned</option>
+              <option *ngFor="let user of assignableUsers" [ngValue]="user.id">
+                {{ user.fullName }} ({{ user.role }}) - {{ user.email }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <span class="meta-label">Created</span>
+            <span>{{ workflowItem.createdAt | date:'medium' }}</span>
+          </div>
+          <div>
+            <span class="meta-label">Updated</span>
+            <span>{{ workflowItem.updatedAt | date:'medium' }}</span>
+          </div>
+        </div>
+
+        <div class="edit-actions" *ngIf="canEditWorkflowItem()">
+          <ng-container *ngIf="!editMode; else editButtons">
+            <button class="primary-btn" (click)="editMode = true">Edit Draft</button>
+          </ng-container>
+
+          <ng-template #editButtons>
+            <button class="primary-btn" (click)="saveEdits()">Save Changes</button>
+            <button class="secondary-btn" (click)="cancelEdit()">Cancel</button>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="section-card history-section">
+        <h2>Workflow History</h2>
+
+        <div *ngIf="history.length === 0" class="empty-note">No history found.</div>
+
+        <div class="history-card" *ngFor="let record of history">
+          <div class="history-top">
+            <span [class]="getStatusClass(record.fromStatus)">{{ record.fromStatus }}</span>
+            <span class="arrow">→</span>
+            <span [class]="getStatusClass(record.toStatus)">{{ record.toStatus }}</span>
+          </div>
+
+          <p><strong>By:</strong> {{ record.actedByName }}</p>
+          <p><strong>Comments:</strong> {{ record.comments || 'No comments provided.' }}</p>
+          <p><strong>Time:</strong> {{ record.actionTime | date:'medium' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-column">
+      <div class="section-card">
+        <h2>Update Status</h2>
+
+        <ng-container *ngIf="canCurrentUserUpdateStatus(); else noTransitionBlock">
+          <div class="form-group">
+            <label for="newStatus">Next Status</label>
+            <select id="newStatus" [(ngModel)]="statusForm.newStatus">
+              <option *ngFor="let status of getAvailableStatusesForCurrentUser(workflowItem.status)" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Comments</label>
+            <textarea id="comments" rows="4" [(ngModel)]="statusForm.comments"></textarea>
+          </div>
+
+          <button class="primary-btn" (click)="updateStatus()">Update Status</button>
+        </ng-container>
+
+        <ng-template #noTransitionBlock>
+          <p class="empty-note">
+            You do not have any valid actions available for this workflow item in its current state.
+          </p>
+        </ng-template>
+
+        <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="success-text">{{ successMessage }}</p>
+
+        <div class="back-link">
+          <a routerLink="/workflow-items" class="secondary-link">Back to List</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <div class="container">
+    <p *ngIf="loading">Loading workflow item...</p>
+    <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+  </div>
+</ng-template>

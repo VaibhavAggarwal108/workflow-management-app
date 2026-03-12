@@ -1,0 +1,15 @@
+# Node / Angular
+frontend/workflow-frontend/node_modules/
+frontend/workflow-frontend/.angular/
+frontend/workflow-frontend/dist/
+
+# Java / Spring Boot
+backend/workflow_backend/target/
+
+# IDE / OS
+.vscode/
+.DS_Store
+
+# Env / secrets
+.env
+application-local.properties

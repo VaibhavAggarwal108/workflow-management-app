@@ -1,0 +1,108 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    margin: 4px 0 0;
+    color: #6b7280;
+}
+
+.create-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.toolbar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toolbar input,
+.toolbar select {
+    min-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: white;
+}
+
+.card-list {
+    display: grid;
+    gap: 16px;
+}
+
+.workflow-card__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.workflow-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.3rem;
+}
+
+.desc {
+    margin: 0;
+    color: #4b5563;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 14px 24px;
+    margin-top: 18px;
+}
+
+.meta-grid div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.actions {
+    margin-top: 18px;
+}
+
+.empty-state {
+    color: #6b7280;
+}
+
+@media (max-width: 900px) {
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .page-header,
+    .workflow-card__top {
+        flex-direction: column;
+    }
+
+    .meta-grid {
+        grid-template-columns: 1fr;
+    }
+}

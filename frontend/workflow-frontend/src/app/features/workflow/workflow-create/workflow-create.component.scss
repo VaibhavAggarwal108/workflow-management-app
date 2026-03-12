@@ -1,0 +1,48 @@
+.form-wrapper {
+    max-width: 760px;
+}
+
+.subtitle {
+    margin-top: -8px;
+    margin-bottom: 20px;
+    color: #6b7280;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+input,
+textarea,
+select {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: white;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.loading-note {
+    color: #6b7280;
+    margin-bottom: 12px;
+}

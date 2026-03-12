@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="header-block">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="subtitle">Overview of workflow activity and recent updates.</p>
+  </div>
+
+  <p *ngIf="loading">Loading dashboard...</p>
+  <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+
+  <div class="summary-grid" *ngIf="summary">
+    <div class="summary-card section-card">
+      <span class="summary-label">Total Items</span>
+      <span class="summary-value">{{ summary.totalItems }}</span>
+    </div>
+
+    <div class="summary-card section-card">
+      <span class="summary-label">Draft</span>
+      <span class="summary-value">{{ summary.draftCount }}</span>
+    </div>
+
+    <div class="summary-card section-card">
+      <span class="summary-label">Submitted</span>
+      <span class="summary-value">{{ summary.submittedCount }}</span>
+    </div>
+
+    <div class="summary-card section-card">
+      <span class="summary-label">Under Review</span>
+      <span class="summary-value">{{ summary.underReviewCount }}</span>
+    </div>
+
+    <div class="summary-card section-card">
+      <span class="summary-label">Approved</span>
+      <span class="summary-value">{{ summary.approvedCount }}</span>
+    </div>
+
+    <div class="summary-card section-card">
+      <span class="summary-label">Rejected</span>
+      <span class="summary-value">{{ summary.rejectedCount }}</span>
+    </div>
+  </div>
+
+  <div class="section-card recent-section">
+    <div class="section-header">
+      <h2>Recent Workflow Items</h2>
+      <a routerLink="/workflow-items" class="secondary-link">View All</a>
+    </div>
+
+    <div *ngIf="recentItems.length === 0" class="empty-note">
+      No recent workflow items found.
+    </div>
+
+    <div class="recent-list" *ngIf="recentItems.length > 0">
+      <a class="recent-item" *ngFor="let item of recentItems" [routerLink]="['/workflow-items', item.id]">
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description || 'No description provided.' }}</p>
+        </div>
+
+        <div class="recent-meta">
+          <span [class]="getStatusClass(item.status)">{{ item.status }}</span>
+          <span class="date-text">{{ item.updatedAt | date:'medium' }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
