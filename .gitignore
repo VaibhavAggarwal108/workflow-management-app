@@ -5,6 +5,7 @@ frontend/workflow-frontend/dist/
 
 # Java / Spring Boot
 backend/workflow_backend/target/
+backend/workflow-backend/target/
 
 # IDE / OS
 .vscode/
@@ -12,4 +13,5 @@ backend/workflow_backend/target/
 
 # Env / secrets
 .env
+.env.*
 application-local.properties
